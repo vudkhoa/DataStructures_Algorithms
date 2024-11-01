@@ -1,0 +1,95 @@
+// trang 0 la hanh khach
+// trang 1 la ve chuyen bay
+// trang 2 la May bay
+// trang 3 la Chuyen bay
+// trang 4 la thong ke
+export global CONST_FUNCTION_GLOBAL {
+    in-out property <bool> modeChoosePlaneTOMakeFlight : false;
+    in-out property <bool> modeCHancePlaneToMakeFlight : false;
+    in-out property <bool> editingFlight : false;
+    in-out property <int> editingPlanePlanePageCONST : -1;
+    in-out property <int> editingPASSENGER_ALLPASSPAGE : -1;
+    in-out property <bool> addingPASSENGER : false;
+    in-out property <bool> addingPLANE : false;
+    in-out property <bool> addingFlight : false;
+    // kich thuoc khung hinh
+    out property <physical-length> MAX_WIDTH : 1890phx;
+    out property <physical-length> MAX_HEIGHT: 1000phx;
+    out property <physical-length> SPACEAPPAROUND : 70phx;
+    out property <physical-length> FONTSIZE : 16phx;
+    // khoi xu ky canh bao
+    in-out property <bool> show_warning : false;
+    in-out property <string> message_warning : "";
+    callback SHOW_WARNING_ERORR(string);
+    SHOW_WARNING_ERORR(str) => {
+        message_warning = str;
+        show_warning = true;
+    }
+    
+    
+    // Khoi comfirm delete Plane
+    in-out property <bool> show_confirm_DLT_PLANE : false;
+    callback show_confirm_DELETE_PLANE();
+    show_confirm_DELETE_PLANE() => {
+        show_confirm_DLT_PLANE = true;
+    }
+    
+    // khoi confirm edit plane
+    in-out property <bool> show_confirm_E_PLANE : false;
+    callback show_confirm_EDIT_PLANE();
+    show_confirm_EDIT_PLANE => {
+        show_confirm_E_PLANE = true;
+    }
+    // khoi lenh confirm edit passengerALL
+    in-out property <bool> show_confirm_E_PassALL : false;
+    callback show_confirm_EDIT_PASSENGERALL();
+    show_confirm_EDIT_PASSENGERALL => {
+        show_confirm_E_PassALL = true;
+    }
+
+    // khoi confirm choose plane for flight
+    in-out property <bool> show_confirm_c_plane : false;
+    callback show_confirm_choose_plane();
+    show_confirm_choose_plane => {
+        show_confirm_c_plane = true;
+    }
+
+    in-out property <bool> show_change_plane : false;
+    callback show_confirm_change_plane();
+    show_confirm_change_plane => {
+        show_change_plane = true;
+    }
+
+    in-out property <bool> show_confirm_e_flight : false;
+    callback show_confirm_edit_flight();
+    show_confirm_edit_flight => {
+        show_confirm_e_flight = true;
+    }
+
+    in-out property <bool> show_confirm_c_f : false;
+    callback show_confirm_cancelFlight();
+    show_confirm_cancelFlight => {
+        show_confirm_c_f = true;
+    }
+    in-out property <bool> show_confirm_b_t : false;
+    callback show_confirm_bookticket();
+    show_confirm_bookticket => {
+        show_confirm_b_t = true;
+    }
+    
+    // Chi so trang giao dien dang dc show
+    callback hidenALLCONFIRM();
+    hidenALLCONFIRM => {
+        show_confirm_c_f = false;
+        show_confirm_c_plane = false;
+        show_confirm_DLT_PLANE = false;
+        show_confirm_E_PLANE = false;
+        show_confirm_E_PassALL = false;
+        show_change_plane = false;
+        show_confirm_e_flight = false;
+    }
+    
+    in-out property <int> page_number_SHOW : -1;
+    // thoi gian
+    in-out property <string> NOW;
+}

@@ -1,0 +1,95 @@
+import { CONST_FUNCTION_GLOBAL } from "CONST_FUNCTION.slint";
+export component NAVBAR inherits Rectangle {
+    in-out property <string> timeNow <=> CONST-FUNCTION-GLOBAL.NOW;
+    width: CONST-FUNCTION-GLOBAL.MAX_WIDTH;
+    height: CONST-FUNCTION-GLOBAL.MAX_HEIGHT * 0.08;
+    background: transparent;
+    logOut := Rectangle {
+        width: 100phx;
+        height: 40phx;
+        background: rgba(255,255,255, 0.7);
+        x : parent.width - self.width - 15phx;
+        Text {text: "LOGOUT";font-size: 13phx;font-weight: 700;}
+        area := TouchArea {
+            clicked => {
+                if (CONST-FUNCTION-GLOBAL.modeChoosePlaneTOMakeFlight != true) {
+                    CONST-FUNCTION-GLOBAL.page_number_SHOW = -1;
+                }
+            }
+        }
+        states [
+            click when area.pressed : {
+                width: 90phx;
+                height: 36phx;
+            }
+        ]
+    }
+    HorizontalLayout {
+        alignment: center;
+        padding: 8px;
+        padding-left: CONST-FUNCTION-GLOBAL.SPACEAPPAROUND;
+        padding-right: CONST-FUNCTION-GLOBAL.SPACEAPPAROUND;
+        spacing: 8phx;
+        for i[index] in ["Passenger", "Flight", "Plane", "Statistical"] : a := Rectangle {
+            underline := Rectangle {
+                width: parent.width;
+                height: 10px;
+                background: red;
+                y : parent.height + 0phx;
+                visible: false;
+            }
+            horizontal-stretch: 1;
+            width: 17%;
+            background: #FFF;
+            text_content := Text {text: i;color: black;font-weight: 500;font-size: 24phx;}
+            AREA := TouchArea {
+                clicked => {
+                    if (CONST-FUNCTION-GLOBAL.modeChoosePlaneTOMakeFlight == true || CONST-FUNCTION-GLOBAL.modeCHancePlaneToMakeFlight == true 
+                        || CONST-FUNCTION-GLOBAL.addingPLANE == true || CONST-FUNCTION-GLOBAL.editingPlanePlanePageCONST != -1 
+                        || CONST-FUNCTION-GLOBAL.addingPASSENGER == true || CONST-FUNCTION-GLOBAL.editingPASSENGER_ALLPASSPAGE != -1
+                        || CONST-FUNCTION-GLOBAL.addingFlight == true || CONST-FUNCTION-GLOBAL.editingFlight == true
+                        ) {
+                            CONST-FUNCTION-GLOBAL.SHOW_WARNING_ERORR("You must complete the current task");
+                        }
+                        else {
+                        CONST-FUNCTION-GLOBAL.page_number_SHOW = index;
+                        if (index == 2 && CONST-FUNCTION-GLOBAL.editingPlanePlanePageCONST != -1) {
+                            CONST-FUNCTION-GLOBAL.page_number_SHOW = 7;
+                        }
+                        if (index == 2 && CONST-FUNCTION-GLOBAL.addingPLANE == true) {
+                            CONST-FUNCTION-GLOBAL.page_number_SHOW = 6;
+                        }
+                        if (index == 1 && CONST-FUNCTION-GLOBAL.addingFlight == true) {
+                            CONST-FUNCTION-GLOBAL.page_number_SHOW = 12;
+                        }
+                        if (index == 1 && CONST-FUNCTION-GLOBAL.editingFlight == true) {
+                            CONST-FUNCTION-GLOBAL.page_number_SHOW = 13;
+                        }
+                    }
+                    
+                }
+            }
+            states [
+                clickedButton when AREA.pressed : {
+                    a.background : #c0c0c0;
+                }
+                Choose when index == CONST-FUNCTION-GLOBAL.page_number_SHOW : {
+                    underline.visible : true;
+                }
+                Page2PassengerPage when index == 0 && (CONST-FUNCTION-GLOBAL.page_number_SHOW == 5 || CONST-FUNCTION-GLOBAL.page_number_SHOW == 8): {
+                    underline.visible : true;
+                }
+                Page2PlanePage when index == 2 && (CONST-FUNCTION-GLOBAL.page_number_SHOW == 6 || CONST-FUNCTION-GLOBAL.page_number_SHOW == 7) : {
+                    underline.visible : true;
+                }
+                Page3PassengerPage when index == 0 && (CONST-FUNCTION-GLOBAL.page_number_SHOW == 9 || CONST-FUNCTION-GLOBAL.page_number_SHOW == 10) : {
+                    underline.visible : true;
+                }
+                addFlight when index == 1 && (CONST-FUNCTION-GLOBAL.page_number_SHOW == 12 || CONST-FUNCTION-GLOBAL.page_number_SHOW == 13 || CONST-FUNCTION-GLOBAL.page_number_SHOW == 4): {
+                    underline.visible : true;
+                }
+                
+            ]
+        }
+    }
+}

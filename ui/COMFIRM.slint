@@ -1,0 +1,90 @@
+import { CONST_FUNCTION_GLOBAL } from "CONST_FUNCTION.slint";
+export component LogComfirm inherits Rectangle {
+    in-out property <string> message_confirm;
+    callback CONFIRM_YES();
+    callback CONFIRM_NO();
+    width: CONST-FUNCTION-GLOBAL.MAX_WIDTH;
+    height: CONST-FUNCTION-GLOBAL.MAX_HEIGHT;
+    background: rgba(0,0,0,0.5);
+
+    // Vung phu mo, ngan chan hanh vi click
+    TouchArea {}
+
+    // cai khoi log canh bao
+    containerLog := Rectangle {
+        width: 450phx;
+        height: 200phx;
+        background: #c0c0c0;
+        drop-shadow-blur: 18phx;
+        drop-shadow-color: black;
+
+        // chua thanh canh bao
+        label := Rectangle {
+            width: containerLog.width;
+            height: 40phx;
+            background: #FFF;
+            Text {text: "COMFIRM"; color: black; font-weight: 700;font-size: 16phx;}
+            x: 0;
+            y: 0;
+        }
+
+        // chua noi dung canh bao
+        Message := Rectangle {
+            x: parent.width / 2 - self.width / 2;
+            y: parent.height/ 2 - self.height / 2 - 15phx;
+            width: 400phx;
+            height: 100phx;
+            text_message := Text {text: message_confirm; font-size: 20phx; color: red; font-weight: 700;}
+        }
+
+        // nut xac nhan
+        Rectangle {
+            width: 210phx;
+            height: 40phx;
+            x: parent.width / 2 - self.width / 2;
+            y: parent.height / 2 + 40phx;
+            VerticalLayout {
+                alignment: center;
+                HorizontalLayout {
+                    alignment: space-between;
+                    confirm := Rectangle {
+                        text_confirm := Text {text: "YES";font-size: 16phx;font-weight: 700;color: black;} 
+                        width: 100phx;
+                        height: 40phx;
+                        background: #FFF;
+                        confirmArea := TouchArea {
+                            clicked => {
+                                CONFIRM_YES();
+                                CONST-FUNCTION-GLOBAL.hidenALLCONFIRM();
+                            }
+                        }
+                        states [
+                            clicked_confirm when confirmArea.pressed : {
+                                confirm.background : #999999;
+                                text_confirm.color : #000;
+                            }
+                        ]
+                    }
+                    cancel := Rectangle {
+                        text_cancel := Text {text: "NO";font-size: 16phx;font-weight: 700;color: black;} 
+                        width: 100phx;
+                        height: 40phx;
+                        background: #FFF;
+                        cancelArea := TouchArea {
+                            clicked => {
+                                CONFIRM_NO();
+                                CONST-FUNCTION-GLOBAL.hidenALLCONFIRM();
+                            }
+                        }
+                        states [
+                            clicked_confirm when cancelArea.pressed : {
+                                cancel.background : #999999;
+                                text_cancel.color : #000;
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+import { CONST_FUNCTION_GLOBAL } from "CONST_FUNCTION.slint";
+export component LogWarning inherits Rectangle {
+    width: CONST-FUNCTION-GLOBAL.MAX_WIDTH;
+    height: CONST-FUNCTION-GLOBAL.MAX_HEIGHT;
+    background: rgba(0,0,0,0.5);
+
+    // Vung phu mo, ngan chan hanh vi click
+    TouchArea {
+    }
+    // cai khoi log canh bao
+    containerLog := Rectangle {
+        width: 450phx;
+        height: 200phx;
+        background: #c0c0c0;
+        drop-shadow-blur: 18phx;
+        drop-shadow-color: black;
+
+        // chua thanh canh bao
+        label := Rectangle {
+            width: containerLog.width;
+            height: 40phx;
+            background: #FFF;
+            Text {text: "Notification"; color: black; font-weight: 700;font-size: 16phx;}
+            x: 0;
+            y: 0;
+        }
+
+        // chua noi dung canh bao
+        Message := Rectangle {
+            x: parent.width / 2 - self.width / 2;
+            y: parent.height/ 2 - self.height / 2;
+            width: 400phx;
+            height: 100phx;
+            text_message := Text {text: CONST-FUNCTION-GLOBAL.message_warning; font-size: 20phx; color: red; font-weight: 700;}
+        }
+
+        // nut xac nhan
+        confirm := Rectangle {
+            x: parent.width / 2 - self.width / 2;
+            y: parent.height - self.height * 1.6;
+            text_confirm := Text {text: "Confirm !!!";font-size: 12phx;font-weight: 700;color: white;} 
+            width: 100phx;
+            height: 40phx;
+            background: #333;
+            confirmArea := TouchArea {
+                clicked => {
+                    CONST-FUNCTION-GLOBAL.show_warning = false;
+                }
+            }
+            states [
+                clicked_confirm when confirmArea.pressed : {
+                    confirm.background : #999999;
+                    text_confirm.color : #000;
+                }
+            ]
+        }
+    }
+}
